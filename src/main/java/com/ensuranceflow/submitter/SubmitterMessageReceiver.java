@@ -6,13 +6,18 @@ import com.ensuranceflow.common.process.ProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 @Component
-public class SubmitterQueueReader {
+public class SubmitterMessageReceiver {
 
     @Autowired
     private ProcessService processService;
+    private CountDownLatch latch = new CountDownLatch(1);
+
+    public void receiveMessage(String message) {
+        System.out.println("Received <" + message + ">");
+    }
 
     private void readMessageFromQueue() {
         // TODO make this method all transactional
@@ -25,4 +30,7 @@ public class SubmitterQueueReader {
         processService.save(new Process(specificId, processClass));
     }
 
+    public CountDownLatch getLatch() {
+        return latch;
+    }
 }
