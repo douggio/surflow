@@ -11,3 +11,4 @@ CREATE TABLE process(
     failure_count INT
 )
 
+SELECT * FROM process;
